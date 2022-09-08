@@ -1,105 +1,69 @@
-import React, { Component, useState } from "react";
-import "../styles/App.css";
+import React, { useState} from "react";
+import '../styles/App.css';
 
-function App() {
-  const [value1, setValue1] = useState("");
-  const [value2, setValue2] = useState("");
-  const [relation, setrelation] = useState("");
-  function clickHandeler(e) {
-    // e.preventDefeault();
-    let ans = false;
-    for (let i = 0; i < value1.length; i++) {
-      for (let j = 0; j < value2.length; j++) {
-        if (value1[i] === value2[j]) {
-          ans = true;
+function App(){
+    const [firstName,setFirstName] = useState("");
+    const [secondName,setSecondName] = useState("");
+    const [ans,setAns] = useState("");
+    const flames = ["Siblings","Friends","Love","Affection","Marriage","Enemy"];
+
+const handleClick= (e)=>{
+    if(firstName==="" || secondName===""){
+        setAns('Please Enter valid input');
+    }
+    else{
+
+        let first = firstName.replace(/\s+/g, '').toLowerCase();
+        let second = secondName.replace(/\s+/g, '').toLowerCase();
+        console.log(first);
+        console.log(second);
+        
+for(let i=0;i<first.length;i++){
+    for(let j=0;j<second.length;j++){
+        if(first.charAt(i)===second.charAt(j)){
+            first = first.substring(0,i) + first.substring(i+1,first.length);
+
+            second = second.substring(0,j)+second.substring(j+1,second.length);
+            i--;
         }
-      }
     }
-    if (ans === true) {
-      let lengt = value1.length + value2.length - 2;
-      if (lengt % 6 === 1) {
-        setrelation("Friends");
-      }
-      if (lengt % 6 === 2) {
-        setrelation("Love");
-      }
-      if (lengt % 6 === 3) {
-        setrelation("Affection");
-      }
-      if (lengt % 6 === 4) {
-        setrelation("Marriage");
-      }
-      if (lengt % 6 === 5) {
-        setrelation("Enemy");
-      }
-      if (lengt % 6 === 0) {
-        setrelation("Siblings");
-      }
-      if (value1.length === 0 || value2.length === 0) {
-        setrelation("Please Enter valid input");
-      }
-    } else {
-      let lengt = value1.length + value2.length;
-      if (lengt % 6 === 1) {
-        setrelation("Friends");
-      }
-      if (lengt % 6 === 2) {
-        setrelation("Love");
-      }
-      if (lengt % 6 === 3) {
-        setrelation("Affection");
-      }
-      if (lengt % 6 === 4) {
-        setrelation("Marriage");
-      }
-      if (lengt % 6 === 5) {
-        setrelation("Enemy");
-      }
-      if (lengt % 6 === 0) {
-        setrelation("Siblings");
-      }
-      if (value1.length === 0 || value2.length === 0) {
-        setrelation("Please Enter valid input");
-      }
-    }
-  }
-  return (
-    <div id="main">
-      <input
-        type="text"
-        placeholder="enter first name "
-        data-testid="input1"
-        value={value1}
-        onChange={(e) => {
-          setValue1(e.target.value);
-        }}
-      />
-      <input
-        type="text"
-        placeholder="enter second name"
-        data-testid="input2"
-        value={value2}
-        onChange={(e) => {
-          setValue2(e.target.value);
-        }}
-      />
-      <button onClick={clickHandeler} data-testid="calculate_relationship">
-        Calculation RelationShip Future
-      </button>
-      <h3 data-testid="answer">{relation}</h3>
-      <button
-        data-testid="clear"
-        onClick={() => {
-          // setrelation("");
-          setValue2("");
-          setValue1("");
-        }}
-      >
-        {" "}
-        Clear
-      </button>
-    </div>
-  );
 }
+const len = first.length + second.length;
+console.log(len);
+setAns(flames[len % 6]);
+    }
+}
+
+
+        return(
+            <div id="main">
+            <input type="text" 
+            data-testid="input1" placeholder="First Name"
+            value={firstName}
+            onChange={(e)=>setFirstName(e.target.value)}
+            ></input>
+
+            <input type="text" 
+            data-testid="input2" placeholder="Second Name"
+            value={secondName}
+            onChange={(e)=>setSecondName(e.target.value)}
+            ></input>
+              
+              <button data-testid="calculate_relationship"
+              onClick={handleClick}
+              >Calculate Relationship Future</button>
+
+              <button data-testid="clear"
+              onClick={()=>{
+                  setFirstName("");
+                  setSecondName("");
+                  setAns("");
+              }}
+              >Clear</button>
+              <h3 data-testid="answer">{ans}</h3>
+            </div>
+        )
+}
+
 
 export default App;
